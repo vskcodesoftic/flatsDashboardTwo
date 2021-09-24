@@ -5,8 +5,12 @@ import {useTranslation} from 'react-i18next';
 
 import * as ActionTypes from '../../../../store/actions';
 
-const getCurrentUser = () => {
+const GetCurrentUser = () => {
+    const history = useHistory();
     const C = JSON.parse(localStorage.getItem('user'));
+    if (C == null) {
+        history.push('/');
+    }
     return C;
 };
 
@@ -79,7 +83,7 @@ const UserDropdown = ({user, onUserLogout}) => {
                         className="img-circle elevation-2"
                         alt="User"
                     />
-                    <p>{getCurrentUser().email}</p>
+                    <p>{GetCurrentUser ? '' : ''}</p>
                 </li>
                 {/* <li className="user-body">
                     <div className="row">

@@ -10,7 +10,6 @@ export const loginByAuth = async (email, password) => {
             password
         })
         .then((response) => {
-            console.log('user data', response.data.data);
             if (response.data.data.token) {
                 localStorage.setItem(
                     'user',

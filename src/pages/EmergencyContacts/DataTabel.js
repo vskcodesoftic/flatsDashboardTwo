@@ -2,7 +2,7 @@ import React, {useState, useEffect, forwardRef} from 'react';
 /* eslint-disable */
 
 import Grid from '@material-ui/core/Grid';
-import { ToastContainer, toast } from 'react-toastify';
+import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import MaterialTable from 'material-table';
@@ -65,8 +65,6 @@ const DataTable = () => {
         {title: 'Desigination', field: 'designation'},
         {title: 'Block Number', field: 'BlockNumber'},
         {title: 'Flat Number', field: 'FlatNumber'}
-
-
     ];
     const [data, setData] = useState([]); // table data
 
@@ -163,44 +161,44 @@ const DataTable = () => {
                 dataDelete.splice(index, 1);
                 setData([...dataDelete]);
                 toast.success('Record has been deleted!', {
-                    position: "top-center",
+                    position: 'top-center',
                     autoClose: 2000,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
                     draggable: true,
-                    progress: undefined,
-                    });
+                    progress: undefined
+                });
                 resolve();
             })
             .catch((error) => {
                 toast.warn(`Delete failed! Server error! ${error}`, {
-                    position: "top-center",
+                    position: 'top-center',
                     autoClose: 2000,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
                     draggable: true,
-                    progress: undefined,
-                    });
-            
+                    progress: undefined
+                });
+
                 resolve();
             });
     };
 
     return (
         <div className="App">
-                        <ToastContainer
-                        position="top-center"
-                        autoClose={5000}
-                        hideProgressBar={false}
-                        newestOnTop={false}
-                        closeOnClick
-                        rtl={false}
-                        pauseOnFocusLoss
-                        draggable
-                        pauseOnHover
-                        />
+            <ToastContainer
+                position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
             <Grid container spacing={2}>
                 <Grid item />
                 <Grid item md={12}>

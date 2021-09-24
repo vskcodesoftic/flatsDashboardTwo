@@ -1,111 +1,156 @@
 /* eslint-disable */
 
-import React from 'react';
-import {useTranslation} from 'react-i18next';
-import {toast} from 'react-toastify';
+import React, {useState, useRef} from 'react';
 
-const ChangePassword = () => {
-    const [t] = useTranslation();
-    let emailInput = null;
-    let oldpasswordInput = null;
-    let newpasswordInput = null;
+import axios from 'axios';
 
-    const setEmailInputRef = (element) => {
-        emailInput = element;
-    };
+import {useForm} from 'react-hook-form';
 
-    const requestNewPassword = (event) => {
-        e.preventDefault();
-        const formData = new FormData();
-        formData.append('email', emailInput);
-        formData.append('oldpassword', this.state.description);
-        formData.append('oldpassword', this.state.title);
+import {Link, Redirect, useHistory} from 'react-router-dom';
 
-        // still to resolve promise
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+const getCurrentUser = () => {
+    const C = JSON.parse(localStorage.getItem('user'));
+    return C;
+};
+
+const userLogout = () => {
+    history.push('/login');
+};
+
+export const ChangePassword = (props) => {
+    const {register, handleSubmit} = useForm();
+const history = useHistory()
+    const fileInput = useRef('');
+
+    const RetypePasswordRef = useRef('');
+    const userEmail = getCurrentUser().email;
+    async function submitHandler(data) {
+        const newdata = {...data, email: userEmail};
+
+        const entredPassword = await data.newpassword;
+
+        const entredretypepassword = RetypePasswordRef.current.value;
+
+        if (entredPassword !== entredretypepassword) {
+            toast.warn("new Password and confirm password don't match");
+            return;
+        }
+
         axios
-            .post('https://badilnyint.com/api/admin/adds/addImages', formData)
+            .post('https://flatsapi.herokuapp.com/api/admin/updatepassword', newdata)
             .then((res) => {
                 console.log(res.data);
-                toast.success(`image uploaded  sucessfully !`);
+                toast.success(`password updated sucessfully !`);
+                // setSpinner(false);
+                // setredirect(true);
+                localStorage.removeItem("token")
+                localStorage.removeItem("user")
+                window.location.reload()
+                history.push("/login")
+
             })
             .catch((error) => {
-                console.log('Error');
-                toast.error(`something went wrong`);
+                console.log(error);
+                toast.error(
+                    (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                        'password updation Failed'
+                );
             });
+    }
+
+    const closeNav = () => {
+        document.getElementById('mySidebar').style.width = '0';
+        document.getElementById('main').style.marginLeft = '0';
+    };
+
+    const openNav = () => {
+        document.getElementById('mySidebar').style.width = '100%';
+        document.getElementById('main').style.marginLeft = '250px';
     };
 
     return (
-        <>
-            <section className="content-header">
-                <div className="container-fluid">
-                    <div>
-                        <div className="login-box">
-                            <div className="card card-outline card-primary">
-                                <div className="card-body">
-                                    <p className="login-box-msg">
-                                        {t('recover.forgotYourPassword')}
-                                    </p>
-                                    <form onSubmit={requestNewPassword}>
-                                        <div className="input-group mb-3">
-                                            <input
-                                                ref={setEmailInputRef}
-                                                type="email"
-                                                className="form-control"
-                                                placeholder="Email"
-                                            />
-                                            <div className="input-group-append">
-                                                <div className="input-group-text">
-                                                    <span className="fas fa-envelope" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="input-group mb-3">
-                                            <input
-                                                ref={setEmailInputRef}
-                                                type="email"
-                                                className="form-control"
-                                                placeholder="Old Password"
-                                            />
-                                            <div className="input-group-append">
-                                                <div className="input-group-text">
-                                                    <span className="fas fa-lock" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="input-group mb-3">
-                                            <input
-                                                ref={setEmailInputRef}
-                                                type="email"
-                                                className="form-control"
-                                                placeholder="New Password"
-                                            />
-                                            <div className="input-group-append">
-                                                <div className="input-group-text">
-                                                    <span className="fas fa-lock" />
-                                                </div>
-                                            </div>
-                                        </div>
+        <div>
+            <div>
+                <div className="navbar-sec p-1">
+                    <div className="container mt-2 mb-2">
+                        <div className="row"></div>
+                    </div>
+                </div>
+                <ToastContainer />
+                <div>
+                    <div className="container ">
+                        <div className="row">
+                            <div className="col-md-12">
+                                <form
+                                    onSubmit={handleSubmit(submitHandler)}
+                                    className="mt-3 "
+                                >
+                                    <div className="form-group">
+                                        <label htmlFor="" clas="">
+                                            {' '}
+                                            Old Password{' '}
+                                        </label>
+                                        <input
+                                            type="password"
+                                            {...register('oldpassword', {
+                                                required: true
+                                            })}
+                                            className="form-control input-box"
+                                            id="fname"
+                                            placeholder="old password"
+                                        />
+                                    </div>
 
-                                        <div className="row">
-                                            <div className="col-12">
-                                                <button
-                                                    type="submit"
-                                                    className="btn btn-primary btn-block"
-                                                >
-                                                    {t(
-                                                        'recover.requestNewPassword'
-                                                    )}
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
+                                    <div className="form-group">
+                                        <label htmlFor="" clas="">
+                                            {' '}
+                                            New Password{' '}
+                                        </label>
+                                        <input
+                                            type="password"
+                                            {...register('newpassword', {
+                                                required: true
+                                            })}
+                                            className="form-control 
+                          input-box"
+                                            id="phone"
+                                            placeholder="new password"
+                                        />
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label htmlFor="" clas="">
+                                            {' '}
+                                            Retype-new Password{' '}
+                                        </label>
+                                        <input
+                                            type="password"
+                                            ref={RetypePasswordRef}
+                                            className="form-control 
+                          input-box"
+                                            id="phone"
+                                            placeholder="re enter password"
+                                        />
+                                    </div>
+
+                                    <input
+                                        type="submit"
+                                        className="submit-btn form-control success-btn"
+                                        value="update password"
+                                        placeholder="update password"
+                                    />
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
-        </>
+            </div>
+        </div>
     );
 };
 

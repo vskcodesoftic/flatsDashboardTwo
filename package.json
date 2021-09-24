@@ -53,7 +53,7 @@
         "react-bootstrap-table2-editor": "^1.4.0",
         "react-data-table-component": "^6.11.7",
         "react-dom": "17.0.1",
-        "react-hook-form": "^7.9.0",
+        "react-hook-form": "^7.15.4",
         "react-i18next": "11.8.5",
         "react-images-upload": "^1.2.8",
         "react-js-loader": "^0.0.7",

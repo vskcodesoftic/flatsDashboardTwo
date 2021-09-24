@@ -31,7 +31,10 @@ const AddEmergencyContact = (props) => {
         setSpinner(true);
 
         axios
-            .post('https://flatsapi.herokuapp.com/api/admin/addListOfContacts', data)
+            .post(
+                'https://flatsapi.herokuapp.com/api/admin/addListOfContacts',
+                data
+            )
             .then((res) => {
                 console.log(res.data);
                 toast.success(`Emergency contact Added sucessfully !`);
@@ -66,12 +69,9 @@ const AddEmergencyContact = (props) => {
                                         </div>
                                         <div className="Field-group mb-3">
                                             <input
-                                                {...register(
-                                                    'email',
-                                                    {
-                                                        required: true
-                                                    }
-                                                )}
+                                                {...register('email', {
+                                                    required: true
+                                                })}
                                                 className="form-control"
                                                 placeholder="email"
                                             />
@@ -94,7 +94,7 @@ const AddEmergencyContact = (props) => {
                                                 placeholder="designation"
                                             />
                                         </div>
-                                    <div className="Field-group mb-3">
+                                        <div className="Field-group mb-3">
                                             <input
                                                 {...register('BlockNumber', {
                                                     required: true
@@ -111,14 +111,14 @@ const AddEmergencyContact = (props) => {
                                                 className="form-control"
                                                 placeholder="FlatNumber"
                                             />
-                                        </div> 
+                                        </div>
                                         <div className="row">
                                             <div className="col-12">
                                                 <button
                                                     type="submit"
                                                     className="btn btn-warning btn-block"
                                                 >
-                                           Add Emergency Contact
+                                                    Add Emergency Contact
                                                 </button>
                                             </div>
                                         </div>
