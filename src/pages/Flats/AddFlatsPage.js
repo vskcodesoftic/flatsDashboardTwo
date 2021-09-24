@@ -87,7 +87,12 @@ const AddFlatsPage = (props) => {
             })
             .catch((error) => {
                 console.log('Error', error);
-                toast.error(`something went wrong`);
+                toast.error(
+                    (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                        'password updation Failed'
+                );
             });
     };
     if (redirect) {
