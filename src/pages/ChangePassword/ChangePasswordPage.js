@@ -20,7 +20,7 @@ const userLogout = () => {
     history.push('/login');
 };
 
-export const ChangePassword = (props) => {
+export const ChangePasswordPage = (props) => {
     const {register, handleSubmit} = useForm();
 const history = useHistory()
     const fileInput = useRef('');
@@ -154,4 +154,4 @@ const history = useHistory()
     );
 };
 
-export default ChangePassword;
+export default ChangePasswordPage;

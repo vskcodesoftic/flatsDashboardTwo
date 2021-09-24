@@ -16,7 +16,7 @@ import Footer from './footer/Footer';
 import MenuSidebar from './menu-sidebar/MenuSidebar';
 import PageLoading from '../../components/page-loading/PageLoading';
 import * as ActionTypes from '../../store/actions';
-import ChangePassword from '../../pages/ChangePassword/ChangePassword';
+import ChangePassword from '../../pages/ChangePassword/ChangePasswordPage';
 
 import AddBlockPage from '../../pages/Block/AddBlockPage';
 import Blocks from '../../pages/Block/Blocks';
