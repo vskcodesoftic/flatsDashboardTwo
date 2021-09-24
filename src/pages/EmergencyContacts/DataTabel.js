@@ -2,10 +2,8 @@ import React, {useState, useEffect, forwardRef} from 'react';
 /* eslint-disable */
 
 import Grid from '@material-ui/core/Grid';
-
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 
 import MaterialTable from 'material-table';
 import AddBox from '@material-ui/icons/AddBox';
@@ -61,10 +59,14 @@ const api = axios.create({
 const DataTable = () => {
     const columns = [
         {title: 'id', field: 'id', hidden: true},
+        {title: 'Name', field: 'name'},
+        {title: 'Email', field: 'email'},
+        {title: 'Contact Number', field: 'ContactNumber'},
+        {title: 'Desigination', field: 'designation'},
         {title: 'Block Number', field: 'BlockNumber'},
-        {title: 'Block title', field: 'Blocktitle'},
-        {title: 'Block description', field: 'Blockdescription'},
-        {title: 'No. of Flats', field: 'TotalFlats'}
+        {title: 'Flat Number', field: 'FlatNumber'}
+
+
     ];
     const [data, setData] = useState([]); // table data
 
@@ -73,9 +75,9 @@ const DataTable = () => {
     const [errorMessages, setErrorMessages] = useState([]);
 
     useEffect(() => {
-        api.get('/api/admin/getBlocks')
+        api.get('/api/admin/geListOfContacts')
             .then((res) => {
-                setData(res.data.Blocks);
+                setData(res.data.Contacts);
             })
             .catch((error) => {
                 console.log('Error');
@@ -90,7 +92,7 @@ const DataTable = () => {
         }
 
         if (errorList.length < 1) {
-            api.patch(`/api/admin/block/${newData.id}`, newData)
+            api.patch(`/api/admin/users/u/${newData.id}`, newData)
                 .then((res) => {
                     const dataUpdate = [...data];
                     const index = oldData.tableData.id;
@@ -153,7 +155,7 @@ const DataTable = () => {
 
     const handleRowDelete = (oldData, resolve) => {
         const pid = api
-            .delete(`/api/admin/block/${oldData.id}`)
+            .delete(`/api/admin/contacts/${oldData.id}`)
             .then((res) => {
                 console.log(oldData.id);
                 const dataDelete = [...data];
@@ -219,7 +221,7 @@ const DataTable = () => {
                         options={{
                             exportButton: true
                         }}
-                        title="List of Blocks"
+                        title="List of Emergency Contacts"
                         columns={columns}
                         data={data}
                         icons={tableIcons}

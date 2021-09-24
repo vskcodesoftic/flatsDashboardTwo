@@ -1,7 +1,7 @@
 /* eslint-disable */
 import {Formik, Field, Form} from 'formik';
 import {useForm, useFieldArray, Controller, useWatch} from 'react-hook-form';
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {toast} from 'react-toastify';
 import axios from 'axios';
@@ -19,6 +19,38 @@ const AddFlatsPage = (props) => {
             test: [{firstName: 'Bill', lastName: 'Luo'}]
         }
     });
+
+    const [Data, setData] = useState([]);
+    const getData = () => {
+        axios
+            .get('https://flatsapi.herokuapp.com/api/admin/getBlocks')
+            .then((res) => {
+                console.log(res.data.Blocks);
+                setData(res.data.Blocks);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    };
+
+    const makeItem = () => {
+        return (
+            <>
+                {Data.map((block, idx) => {
+                    return (
+                        <option key={idx} value={block.BlockNumber} selected>
+                            {block.BlockNumber}{' '}
+                        </option>
+                    );
+                })}
+            </>
+        );
+    };
+
+    useEffect(() => {
+        getData();
+    }, []);
+
     const {fields, append, remove} = useFieldArray({
         control,
         name: 'test'
@@ -136,13 +168,16 @@ const AddFlatsPage = (props) => {
                                             />
                                         </div>
                                         <div className="Field-group mb-3">
-                                            <input
+                                            <p>Select Block</p>
+                                            <select
                                                 {...register('BlockNumber', {
                                                     required: true
                                                 })}
                                                 className="form-control"
                                                 placeholder="BlockNumber"
-                                            />
+                                            >
+                                                {makeItem()}
+                                            </select>
                                         </div>
                                         {/* <div className="Field-group mb-3">
                                             <input

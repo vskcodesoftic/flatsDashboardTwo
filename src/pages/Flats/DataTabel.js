@@ -3,6 +3,10 @@ import React, {useState, useEffect, forwardRef} from 'react';
 
 import Grid from '@material-ui/core/Grid';
 
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import MaterialTable from 'material-table';
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
@@ -152,24 +156,52 @@ const DataTable = () => {
 
     const handleRowDelete = (oldData, resolve) => {
         const pid = api
-            .delete(`/api/admin/users/${oldData.id}`)
+            .delete(`/api/admin/flat/${oldData.id}`)
             .then((res) => {
                 console.log(oldData.id);
                 const dataDelete = [...data];
                 const index = oldData.tableData.id;
                 dataDelete.splice(index, 1);
                 setData([...dataDelete]);
+                toast.success('Record has been deleted!', {
+                    position: "top-center",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    });
                 resolve();
             })
             .catch((error) => {
-                setErrorMessages(['Delete failed! Server error']);
-                setIserror(true);
+                toast.warn(`Delete failed! Server error! ${error}`, {
+                    position: "top-center",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    });
+            
                 resolve();
             });
     };
 
     return (
         <div className="App">
+                    <ToastContainer
+                        position="top-center"
+                        autoClose={5000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                        />
             <Grid container spacing={2}>
                 <Grid item />
                 <Grid item md={12}>
@@ -194,20 +226,20 @@ const DataTable = () => {
                         columns={columns}
                         data={data}
                         icons={tableIcons}
-                        // editable={{
-                        //     onRowUpdate: (newData, oldData) =>
-                        //         new Promise((resolve) => {
-                        //             handleRowUpdate(newData, oldData, resolve);
-                        //         }),
-                        //     // onRowAdd: (newData) =>
-                        //     //     new Promise((resolve) => {
-                        //     //         handleRowAdd(newData, resolve);
-                        //     //     }),
-                        //     onRowDelete: (oldData) =>
-                        //         new Promise((resolve) => {
-                        //             handleRowDelete(oldData, resolve);
-                        //         })
-                        // }}
+                        editable={{
+                            // onRowUpdate: (newData, oldData) =>
+                            //     new Promise((resolve) => {
+                            //         handleRowUpdate(newData, oldData, resolve);
+                            //     }),
+                            // onRowAdd: (newData) =>
+                            //     new Promise((resolve) => {
+                            //         handleRowAdd(newData, resolve);
+                            //     }),
+                            onRowDelete: (oldData) =>
+                                new Promise((resolve) => {
+                                    handleRowDelete(oldData, resolve);
+                                })
+                        }}
                     />
                 </div>
             </div>

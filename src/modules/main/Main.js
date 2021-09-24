@@ -9,6 +9,8 @@ import Profile from '@pages/profile/Profile';
 import Users from '@app/pages/Block/Blocks';
 
 import AddFlatsPage from '@app/pages/Flats/AddFlatsPage';
+import AddEmergencyContact from '@app/pages/EmergencyContacts/AddEmergencyContact';
+import EmergencyContact from '@app/pages/EmergencyContacts/EmergencyContact';
 import Header from './header/Header';
 import Footer from './footer/Footer';
 import MenuSidebar from './menu-sidebar/MenuSidebar';
@@ -94,6 +96,18 @@ const Main = ({onUserLoad}) => {
                                 exact
                                 path="/AddFlat"
                                 component={AddFlatsPage}
+                            />
+
+                            <Route
+                                exact
+                                path="/addEmergencyContact"
+                                component={AddEmergencyContact}
+                            />
+
+                            <Route
+                                exact
+                                path="/emergency"
+                                component={EmergencyContact}
                             />
 
                             <Route exact path="/profile" component={Profile} />

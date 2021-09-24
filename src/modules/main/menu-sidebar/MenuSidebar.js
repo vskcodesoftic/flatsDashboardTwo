@@ -68,7 +68,12 @@ const MenuSidebar = ({user}) => {
                                 <p>Flats</p>
                             </NavLink>
                         </li>
-
+                        <li className="nav-item">
+                            <NavLink to="/emergency" exact className="nav-link">
+                                <i className="nav-icon fas fa-phone" />
+                                <p>Emergency Contacts</p>
+                            </NavLink>
+                        </li>
                     </ul>
                 </nav>
             </div>
