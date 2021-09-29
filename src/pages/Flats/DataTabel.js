@@ -59,14 +59,21 @@ const api = axios.create({
 
 const DataTable = () => {
     const columns = [
-        {title: 'id', field: 'id', hidden: true},
-        {title: 'Block Number', field: 'BlockNumber'},
-        {title: 'Flat no', field: 'flatno'},
-        {title: 'residence title', field: 'title'},
-        {title: 'Name of Owner', field: 'ownerName'},
-        {title: 'Email of Owner', field: 'ownerEmail'},
-        {title: 'Contact number of Owner', field: 'ownerContactNumber'},
-        {title: 'Number Of Family Members', field: 'NumberOfFamilyMembers'}
+        {title: 'id', field: 'id', hidden: true , editable: 'never' },
+        {title: 'Block Number', field: 'BlockNumber' , editable: 'never' },
+        {title: 'Flat no', field: 'flatno' , editable: 'never' },
+        {title: 'residence title', field: 'title' ,  editable: 'never' },
+        {title: 'Name of Owner', field: 'ownerName' , editable: 'never' },
+        {title: 'Email of Owner', field: 'ownerEmail' ,  editable: 'never' },
+        {title: 'Contact number of Owner', field: 'ownerContactNumber' ,  editable: 'never' },
+        {title: 'Number Of Family Members', field: 'NumberOfFamilyMembers' ,  editable: 'never' },
+        {
+            title: 'status',
+            field: 'showFamilyMembers',
+            lookup: {true: "active", false: "inactive"}
+        },
+
+        
     ];
     const [data, setData] = useState([]); // table data
 
@@ -78,6 +85,7 @@ const DataTable = () => {
         api.get('/api/admin/getListofFlats')
             .then((res) => {
                 setData(res.data.Flats);
+                console.log("data",res.data)
             })
             .catch((error) => {
                 console.log('Error');
@@ -92,18 +100,21 @@ const DataTable = () => {
         }
 
         if (errorList.length < 1) {
-            api.patch(`/api/admin/users/u/${newData.id}`, newData)
+            api.patch(`/api/admin/updateStatus/${newData.id}`, newData)
                 .then((res) => {
                     const dataUpdate = [...data];
                     const index = oldData.tableData.id;
                     dataUpdate[index] = newData;
+                    toast.success(`${res.data.message || 'record updated' }`)
                     setData([...dataUpdate]);
                     resolve();
                     setIserror(false);
                     setErrorMessages([]);
                 })
                 .catch((error) => {
-                    setErrorMessages([`Update failed! Server error${error}`]);
+                    // setErrorMessages([`Update failed! Server error${error}`]);
+                    toast.warn(`${error.message || 'record updated failed' }`)
+
                     setIserror(true);
                     resolve();
                 });
@@ -226,10 +237,10 @@ const DataTable = () => {
                         data={data}
                         icons={tableIcons}
                         editable={{
-                            // onRowUpdate: (newData, oldData) =>
-                            //     new Promise((resolve) => {
-                            //         handleRowUpdate(newData, oldData, resolve);
-                            //     }),
+                            onRowUpdate: (newData, oldData) =>
+                                new Promise((resolve) => {
+                                    handleRowUpdate(newData, oldData, resolve);
+                                }),
                             // onRowAdd: (newData) =>
                             //     new Promise((resolve) => {
                             //         handleRowAdd(newData, resolve);
