@@ -22,7 +22,7 @@ const userLogout = () => {
 
 export const ChangePasswordPage = (props) => {
     const {register, handleSubmit} = useForm();
-const history = useHistory()
+    const history = useHistory();
     const fileInput = useRef('');
 
     const RetypePasswordRef = useRef('');
@@ -40,17 +40,19 @@ const history = useHistory()
         }
 
         axios
-            .post('https://flatsapi.herokuapp.com/api/admin/updatepassword', newdata)
+            .post(
+                'https://flatsapi.herokuapp.com/api/admin/updatepassword',
+                newdata
+            )
             .then((res) => {
                 console.log(res.data);
                 toast.success(`password updated sucessfully !`);
                 // setSpinner(false);
                 // setredirect(true);
-                localStorage.removeItem("token")
-                localStorage.removeItem("user")
-                window.location.reload()
-                history.push("/login")
-
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                window.location.reload();
+                history.push('/login');
             })
             .catch((error) => {
                 console.log(error);

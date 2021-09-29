@@ -74,6 +74,22 @@ const MenuSidebar = ({user}) => {
                                 <p>Emergency Contacts</p>
                             </NavLink>
                         </li>
+                        <li className="nav-item">
+                            <NavLink
+                                to="/officeBearer"
+                                exact
+                                className="nav-link"
+                            >
+                                <i className="nav-icon fas fa-list" />
+                                <p>Office Bearers </p>
+                            </NavLink>
+                        </li>
+                        <li className="nav-item">
+                            <NavLink to="/notice" exact className="nav-link">
+                                <i className="nav-icon fas fa-copy" />
+                                <p>Notice Board</p>
+                            </NavLink>
+                        </li>
                     </ul>
                 </nav>
             </div>

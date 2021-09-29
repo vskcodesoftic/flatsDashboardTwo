@@ -11,6 +11,9 @@ import Users from '@app/pages/Block/Blocks';
 import AddFlatsPage from '@app/pages/Flats/AddFlatsPage';
 import AddEmergencyContact from '@app/pages/EmergencyContacts/AddEmergencyContact';
 import EmergencyContact from '@app/pages/EmergencyContacts/EmergencyContact';
+
+import AddNoticePage from '@app/pages/NoticeBoard/AddNoticePage';
+import AddNoticeMainPage from '@app/pages/NoticeBoard/AddNoticeMainPage';
 import Header from './header/Header';
 import Footer from './footer/Footer';
 import MenuSidebar from './menu-sidebar/MenuSidebar';
@@ -22,6 +25,8 @@ import AddBlockPage from '../../pages/Block/AddBlockPage';
 import Blocks from '../../pages/Block/Blocks';
 
 import FlatsPage from '../../pages/Flats/FlatsPage';
+import OfficeBearerContact from '../../pages/OfficeBearers/OfficeBearerPage';
+import AddOfficeBearerContactPage from '../../pages/OfficeBearers/AddOfficeBearerContactPage';
 
 const Main = ({onUserLoad}) => {
     const [appLoadingState, updateAppLoading] = useState(false);
@@ -86,6 +91,17 @@ const Main = ({onUserLoad}) => {
 
                             <Route exact path="/blocks" component={Blocks} />
                             <Route exact path="/flats" component={FlatsPage} />
+                            <Route
+                                exact
+                                path="/notice"
+                                component={AddNoticeMainPage}
+                            />
+
+                            <Route
+                                exact
+                                path="/officeBearer"
+                                component={OfficeBearerContact}
+                            />
 
                             <Route
                                 exact
@@ -102,6 +118,17 @@ const Main = ({onUserLoad}) => {
                                 exact
                                 path="/addEmergencyContact"
                                 component={AddEmergencyContact}
+                            />
+
+                            <Route
+                                exact
+                                path="/addOfficeBearerContact"
+                                component={AddOfficeBearerContactPage}
+                            />
+                            <Route
+                                exact
+                                path="/addNotice"
+                                component={AddNoticePage}
                             />
 
                             <Route
